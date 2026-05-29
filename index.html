@@ -1,0 +1,828 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OnTheLLow precision AI infrastructure and high-agency system architecture.">
+  <title>OnTheLLow | Precision AI Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              graphite: {
+                50: '#f1f1f4', 100: '#e3e2e9', 200: '#c7c6d2', 300: '#aba9bc', 400: '#8e8da5', 500: '#72708f', 600: '#5b5a72', 700: '#454356', 800: '#2e2d39', 900: '#17161d', 950: '#101014'
+              },
+              'cloudy-sky': {
+                50: '#eaf2fa', 100: '#d6e4f5', 200: '#adcaeb', 300: '#84afe1', 400: '#5b95d7', 500: '#327acd', 600: '#2862a4', 700: '#1e497b', 800: '#143152', 900: '#0a1829', 950: '#07111d'
+              },
+              'mint-leaf': {
+                500: '#25daa7', 600: '#1eae85'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              mono: ['IBM Plex Mono', 'Consolas', 'monospace'],
+              serif: ['Playfair Display', 'Georgia', 'serif']
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+  <style>
+    html { scroll-behavior: smooth; background: #000; }
+    body { margin: 0; background: #000; color: #f1f1f4; font-family: Inter, system-ui, sans-serif; overflow-x: hidden; }    /* ---- HERO WEBGL GATEWAY ---- */
+    .hero {
+        position:relative;
+        min-height:185vh;
+        background:#000;
+        isolation:isolate;
+    }
+    .hero-stage {
+        position:sticky;
+        top:0;
+        min-height:100vh;
+        display:grid;
+        place-items:center;
+        overflow:hidden;
+    }
+    #hero-canvas {
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        z-index:2;
+        opacity:0;
+        transition:opacity 900ms cubic-bezier(0.19,1,0.22,1);
+    }
+    .webgl-ready #hero-canvas {opacity:1}
+    .hero-field {
+        position:absolute;
+        inset:0;
+        z-index:1;
+        background:
+            linear-gradient(90deg,transparent 0,rgba(225,245,249,.07) 50%,transparent 100%) 50% 50%/1px 78% no-repeat,
+            linear-gradient(0deg,transparent 0,rgba(225,245,249,.055) 50%,transparent 100%) 50% 50%/70% 1px no-repeat,
+            radial-gradient(ellipse at 50% 46%,rgba(89,148,215,.15),transparent 33%),
+            #000;
+    }
+    .hero-fallback-lock {
+        position:absolute;
+        z-index:1;
+        width:min(68vw,760px);
+        aspect-ratio:1.62;
+        border:1px solid rgba(225,245,249,.13);
+        background:
+            linear-gradient(110deg,rgba(225,245,249,.08),transparent 22% 72%,rgba(89,148,215,.12)),
+            linear-gradient(145deg,rgba(54,53,67,.72),rgba(16,16,20,.48));
+        box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 0 120px rgba(89,148,215,.13),0 36px 90px rgba(0,0,0,.8);
+        transform:perspective(900px) rotateX(58deg) rotateZ(-18deg);
+        opacity:.72;
+        transition:opacity 600ms ease;
+    }
+    .webgl-ready .hero-fallback-lock {opacity:0}
+    .hero-fallback-lock::before,
+    .hero-fallback-lock::after {
+        content:"";
+        position:absolute;
+        inset:13%;
+        border:1px solid rgba(225,245,249,.18);
+        background:rgba(225,245,249,.035);
+        backdrop-filter:blur(20px);
+        -webkit-backdrop-filter:blur(20px);
+    }
+    .hero-fallback-lock::after {
+        inset:31% 23%;
+        border-color:rgba(89,148,215,.42);
+        box-shadow:0 0 36px rgba(89,148,215,.22);
+    }
+    .hero-copy {
+        position:relative;
+        z-index:4;
+        width:min(1180px,calc(100vw - 40px));
+        min-height:100vh;
+        display:grid;
+        grid-template-columns:repeat(12,minmax(0,1fr));
+        align-items:end;
+        padding:108px 0 72px;
+        pointer-events:none;
+    }
+    .hero-core {
+        grid-column:2/span 10;
+        align-self:center;
+        justify-self:center;
+        text-align:center;
+        transform:translateY(-1vh);
+    }
+    .hero-mark {
+        font-family:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+        font-size:clamp(2.65rem,8vw,7.6rem);
+        font-weight:700;
+        line-height:.92;
+        letter-spacing:0;
+        color:#f7fbff;
+        text-shadow:0 0 18px rgba(225,245,249,.2),0 0 48px rgba(89,148,215,.13);
+    }
+    .hero-kicker {
+        margin:20px auto 0;
+        max-width:740px;
+        color:rgba(241,241,244,.72);
+        font-size:clamp(.98rem,1.7vw,1.28rem);
+        line-height:1.55;
+    }
+    .hero-lower {
+        grid-column:1/span 12;
+        display:grid;
+        grid-template-columns:repeat(12,minmax(0,1fr));
+        align-items:end;
+        gap:18px;
+    }
+    .hero-index,
+    .scroll-cue {
+        font-family:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+        font-size:.72rem;
+        color:rgba(225,245,249,.58);
+        text-transform:uppercase;
+    }
+    .hero-index {grid-column:1/span 4}
+    .scroll-cue {
+        grid-column:9/span 4;
+        justify-self:end;
+        display:inline-flex;
+        align-items:center;
+        gap:14px;
+    }
+    .scroll-cue::after {
+        content:"";
+        width:76px;
+        height:1px;
+        background:rgba(225,245,249,.38);
+        box-shadow:0 0 18px rgba(89,148,215,.38);
+        animation:cuePulse 2.8s ease-in-out infinite;
+    }
+    @keyframes cuePulse {
+        0%,100%{opacity:.38;transform:scaleX(.75);transform-origin:left}
+        50%{opacity:.9;transform:scaleX(1);transform-origin:left}
+    }
+
+    /* Architectural HR */
+    .hr-arch{
+        height:1px;
+        background:linear-gradient(90deg,transparent 0%,rgba(89,148,215,.15) 15%,rgba(89,148,215,.25) 50%,rgba(89,148,215,.15) 85%,transparent 100%);
+    }
+
+    /* Section label */
+    .section-label{
+        font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#5994d7;
+    }
+
+    /* Pillar number */
+    .pillar-num{
+        font-family:'Playfair Display',serif;font-size:52px;font-weight:400;line-height:1;
+        background:linear-gradient(180deg,rgba(89,148,215,.25) 0%,rgba(89,148,215,.04) 100%);
+        -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+
+    /* Pillar card */
+    .pillar-card{
+        border:1px solid rgba(89,148,215,.06);
+        background:linear-gradient(180deg,rgba(46,45,57,.15) 0%,rgba(23,22,29,.4) 100%);
+        transition:border-color .35s ease,box-shadow .35s ease;
+    }
+    .pillar-card:hover{
+        border-color:rgba(89,148,215,.18);
+        box-shadow:0 0 40px rgba(89,148,215,.04);
+    }
+
+    /* Reveal animation */
+    .reveal{opacity:0;transform:translateY(32px);transition:all .85s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s}
+    .reveal-delay-2{transition-delay:.2s}
+    .reveal-delay-3{transition-delay:.3s}
+    .reveal-delay-4{transition-delay:.4s}
+
+    /* Nav transition */
+    .nav-bar{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s ease}
+    .nav-hidden{transform:translateY(-100%);opacity:0}
+    .nav-visible{transform:translateY(0);opacity:1}
+
+    /* Mobile panel adjustments */
+    @media(max-width:767px){
+        .hero{min-height:150vh}
+        .hero-copy{width:min(100vw - 28px,720px);padding:86px 0 48px}
+        .hero-core{grid-column:1/span 12}
+        .hero-lower{gap:10px}
+        .hero-index,
+        .scroll-cue{grid-column:1/span 12;justify-self:start}
+        .pillar-num{font-size:36px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+        .hero{min-height:100vh}
+        .hero-stage{position:relative}
+        .scroll-cue::after{animation:none}
+        .reveal{opacity:1;transform:none}
+    }
+
+    /* Architecture diagram lines */
+    .arch-line{
+        height:1px;
+        background:linear-gradient(90deg,rgba(89,148,215,.3),rgba(89,148,215,.08));
+    }
+    .arch-line-v{
+        width:1px;
+        background:linear-gradient(180deg,rgba(89,148,215,.3),rgba(89,148,215,.08));
+    }
+
+    /* Mint indicator dot */
+    .mint-dot{
+        width:6px;height:6px;background:#20bd90;border-radius:50%;
+        box-shadow:0 0 8px rgba(32,189,144,.4);
+    }
+    @keyframes mintPulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .mint-pulse{animation:mintPulse 2s ease-in-out infinite}
+</style>
+</head>
+<body>
+<header class="hero" id="top">
+    <div class="hero-stage" aria-label="OnTheLLow dimensional glass and metal gateway">
+        <div class="hero-field" aria-hidden="true"></div>
+        <div class="hero-fallback-lock" aria-hidden="true"></div>
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero-copy">
+            <div class="hero-core">
+                <div class="hero-mark">OnTheLLow</div>
+                <p class="hero-kicker">Precision-first AI infrastructure for clarity, sovereignty, permanence, control, and orchestration.</p>
+            </div>
+            <div class="hero-lower">
+                <div class="hero-index">Architectural Precision / Kinetic Threshold</div>
+                <div class="scroll-cue">Enter the system</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ====== BODY CONTENT ====== -->
+<main class="relative z-10 bg-black">
+
+    <!-- STATEMENT -->
+    <section id="purpose" class="relative py-32 md:py-44 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="reveal">
+                <span class="section-label">01 &mdash; Purpose</span>
+            </div>
+            <div class="hr-arch mt-6 mb-12 reveal reveal-delay-1"></div>
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl text-graphite-50 leading-[1.15] tracking-tight reveal reveal-delay-2" style="font-weight:400">
+                We engineer the infrastructure that makes AI systems <em class="not-italic text-cloudy-sky-300">governable</em>, <em class="not-italic text-cloudy-sky-300">permanent</em>, and <em class="not-italic text-cloudy-sky-300">yours</em>.
+            </h2>
+            <p class="mt-10 text-graphite-400 text-base md:text-lg leading-relaxed max-w-2xl reveal reveal-delay-3">
+                OnTheLLow designs precision AI infrastructure and high-agency system architectures for builders who refuse to surrender control. We do not build tools. We build the structural layer that makes intelligent systems answer to you.
+            </p>
+            <div class="mt-12 flex items-center gap-4 reveal reveal-delay-4">
+                <div class="w-8 h-px bg-cloudy-sky-500/30"></div>
+                <span class="text-graphite-500 text-xs tracking-[.15em] uppercase">Established for the sovereign builder</span>
+            </div>
+        </div>
+        <!-- Decorative vertical line -->
+        <div class="hidden lg:block absolute right-16 top-32 bottom-32 arch-line-v opacity-30"></div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section id="principles" class="relative py-24 md:py-36 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal">
+                <span class="section-label">02 &mdash; Principles</span>
+            </div>
+            <div class="hr-arch mt-6 mb-16 reveal reveal-delay-1"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Clarity -->
+                <div class="pillar-card rounded-xl p-8 md:p-10 reveal">
+                    <div class="pillar-num mb-4">01</div>
+                    <h3 class="text-graphite-100 text-lg font-medium mb-3 tracking-wide" style="font-family:'Inter',sans-serif">Clarity</h3>
+                    <p class="text-graphite-400 text-sm leading-relaxed">Systems that reveal their logic. No black boxes. No hidden processes. Every layer is inspectable, every decision traceable. Understanding is not optional &mdash; it is structural.</p>
+                    <div class="mt-6 w-6 h-px bg-cloudy-sky-500/20"></div>
+                </div>
+
+                <!-- Sovereignty -->
+                <div class="pillar-card rounded-xl p-8 md:p-10 reveal reveal-delay-1">
+                    <div class="pillar-num mb-4">02</div>
+                    <h3 class="text-graphite-100 text-lg font-medium mb-3 tracking-wide" style="font-family:'Inter',sans-serif">Sovereignty</h3>
+                    <p class="text-graphite-400 text-sm leading-relaxed">Your data. Your rules. Your infrastructure. OnTheLLow systems answer to you, not to external platforms or opaque intermediaries. Ownership is the baseline, not the upgrade.</p>
+                    <div class="mt-6 w-6 h-px bg-cloudy-sky-500/20"></div>
+                </div>
+
+                <!-- Permanence -->
+                <div class="pillar-card rounded-xl p-8 md:p-10 reveal reveal-delay-2">
+                    <div class="pillar-num mb-4">03</div>
+                    <h3 class="text-graphite-100 text-lg font-medium mb-3 tracking-wide" style="font-family:'Inter',sans-serif">Permanence</h3>
+                    <p class="text-graphite-400 text-sm leading-relaxed">Built to endure. Architectures designed around durability, not planned obsolescence. Systems that persist as long as you need them, without forced migration or vendor erosion.</p>
+                    <div class="mt-6 w-6 h-px bg-cloudy-sky-500/20"></div>
+                </div>
+
+                <!-- Control -->
+                <div class="pillar-card rounded-xl p-8 md:p-10 reveal">
+                    <div class="pillar-num mb-4">04</div>
+                    <h3 class="text-graphite-100 text-lg font-medium mb-3 tracking-wide" style="font-family:'Inter',sans-serif">Control</h3>
+                    <p class="text-graphite-400 text-sm leading-relaxed">Precision command over every system layer. Granular permissions, explicit configurations, deterministic behavior where it matters. Control is not the opposite of power &mdash; it is the precondition.</p>
+                    <div class="mt-6 w-6 h-px bg-cloudy-sky-500/20"></div>
+                </div>
+
+                <!-- Orchestration -->
+                <div class="pillar-card rounded-xl p-8 md:p-10 md:col-span-2 lg:col-span-2 reveal reveal-delay-1">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="pillar-num">05</div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <div class="mint-dot"></div>
+                            <span class="text-mint-leaf-600 text-[9px] tracking-[.15em] uppercase">Active System</span>
+                        </div>
+                    </div>
+                    <h3 class="text-graphite-100 text-lg font-medium mb-3 tracking-wide" style="font-family:'Inter',sans-serif">Orchestration</h3>
+                    <p class="text-graphite-400 text-sm leading-relaxed max-w-xl">Many systems, one disciplined architecture. OnTheLLow coordinates complex AI infrastructure into coherent, governable operations. When orchestration is precise, emergence becomes intention. The system does not grow beyond you &mdash; it grows with you.</p>
+                    <div class="mt-6 w-6 h-px bg-cloudy-sky-500/20"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section id="architecture" class="relative py-24 md:py-36 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal">
+                <span class="section-label">03 &mdash; Architecture</span>
+            </div>
+            <div class="hr-arch mt-6 mb-16 reveal reveal-delay-1"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                <!-- Left: Text -->
+                <div class="reveal reveal-delay-1">
+                    <h2 class="font-serif text-2xl md:text-4xl text-graphite-50 leading-[1.2] tracking-tight mb-8" style="font-weight:400">
+                        OnTheLLow builds at the intersection of AI infrastructure and systems architecture.
+                    </h2>
+                    <p class="text-graphite-400 text-sm leading-relaxed mb-6">
+                        We design the structural layer that makes artificial intelligence governable, composable, and permanent. Our architecture does not depend on any single model, platform, or vendor. It depends on principles.
+                    </p>
+                    <p class="text-graphite-400 text-sm leading-relaxed mb-10">
+                        Every system we engineer is built to be inspected, controlled, and sustained by its operator. This is not a feature set. It is a structural commitment.
+                    </p>
+
+                    <!-- Architecture layers -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-2 h-2 border border-cloudy-sky-400/40 rotate-45 group-hover:bg-cloudy-sky-400/30 transition-colors duration-300"></div>
+                            <span class="text-graphite-300 text-sm tracking-wide">Infrastructure Design</span>
+                            <div class="flex-1 arch-line"></div>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-2 h-2 border border-cloudy-sky-400/40 rotate-45 group-hover:bg-cloudy-sky-400/30 transition-colors duration-300"></div>
+                            <span class="text-graphite-300 text-sm tracking-wide">System Architecture</span>
+                            <div class="flex-1 arch-line"></div>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-2 h-2 border border-cloudy-sky-400/40 rotate-45 group-hover:bg-cloudy-sky-400/30 transition-colors duration-300"></div>
+                            <span class="text-graphite-300 text-sm tracking-wide">Orchestration Layer</span>
+                            <div class="flex-1 arch-line"></div>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-2 h-2 border border-mint-leaf-400/40 rotate-45 group-hover:bg-mint-leaf-400/30 transition-colors duration-300"></div>
+                            <span class="text-graphite-300 text-sm tracking-wide">Control Protocols</span>
+                            <div class="flex-1 arch-line" style="background:linear-gradient(90deg,rgba(32,189,144,.2),rgba(32,189,144,.04))"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Visual diagram -->
+                <div class="reveal reveal-delay-2">
+                    <div class="relative border border-graphite-800/60 rounded-xl p-8 md:p-10" style="background:linear-gradient(180deg,rgba(46,45,57,.08),rgba(16,16,20,.5))">
+                        <!-- Diagram header -->
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-[9px] tracking-[.2em] uppercase text-graphite-500">System Schematic</span>
+                            <div class="flex items-center gap-2">
+                                <div class="mint-dot mint-pulse" style="width:4px;height:4px"></div>
+                                <span class="text-[8px] tracking-[.15em] uppercase text-mint-leaf-600">Live</span>
+                            </div>
+                        </div>
+
+                        <!-- Layered diagram -->
+                        <div class="space-y-3">
+                            <!-- Layer 1 -->
+                            <div class="border border-cloudy-sky-500/10 rounded-lg px-5 py-4" style="background:rgba(89,148,215,.03)">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] tracking-[.15em] uppercase text-cloudy-sky-300">Application Layer</span>
+                                    <span class="text-[9px] text-graphite-500">L4</span>
+                                </div>
+                            </div>
+                            <!-- Layer 2 -->
+                            <div class="border border-cloudy-sky-500/10 rounded-lg px-5 py-4 ml-4" style="background:rgba(89,148,215,.03)">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] tracking-[.15em] uppercase text-cloudy-sky-300">Orchestration Layer</span>
+                                    <span class="text-[9px] text-graphite-500">L3</span>
+                                </div>
+                            </div>
+                            <!-- Layer 3 -->
+                            <div class="border border-cloudy-sky-500/10 rounded-lg px-5 py-4 ml-8" style="background:rgba(89,148,215,.03)">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] tracking-[.15em] uppercase text-cloudy-sky-300">Control Layer</span>
+                                    <span class="text-[9px] text-graphite-500">L2</span>
+                                </div>
+                            </div>
+                            <!-- Layer 4 -->
+                            <div class="border border-mint-leaf-500/10 rounded-lg px-5 py-4 ml-12" style="background:rgba(32,189,144,.03)">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] tracking-[.15em] uppercase text-mint-leaf-400">Sovereignty Layer</span>
+                                    <span class="text-[9px] text-graphite-500">L1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Connection lines -->
+                        <div class="mt-6 flex items-center gap-2">
+                            <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(89,148,215,.2),rgba(32,189,144,.15))"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-cloudy-sky-500/30"></div>
+                            <div class="flex-1 h-px" style="background:linear-gradient(90deg,rgba(32,189,144,.15),rgba(89,148,215,.2))"></div>
+                        </div>
+
+                        <p class="mt-6 text-[10px] text-graphite-500 leading-relaxed text-center">Each layer is independently inspectable, configurable, and sovereign. The operator holds authority at every level.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section id="philosophy" class="relative py-24 md:py-36 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="reveal">
+                <span class="section-label">04 &mdash; Philosophy</span>
+            </div>
+            <div class="hr-arch mt-6 mb-16 reveal reveal-delay-1"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                <!-- Main statement -->
+                <div class="lg:col-span-8 reveal reveal-delay-2">
+                    <blockquote class="font-serif text-2xl md:text-3xl lg:text-4xl text-graphite-100 leading-[1.25] tracking-tight" style="font-weight:400">
+                        "We believe the most powerful systems are the most <em class="not-italic text-cloudy-sky-300">disciplined</em> ones. Precision is not a constraint &mdash; it is the foundation of freedom."
+                    </blockquote>
+                    <div class="mt-8 flex items-center gap-4">
+                        <div class="w-10 h-px bg-cloudy-sky-500/25"></div>
+                        <span class="text-graphite-500 text-xs tracking-[.1em]">OnTheLLow Founding Principle</span>
+                    </div>
+                </div>
+
+                <!-- Supporting text -->
+                <div class="lg:col-span-4 reveal reveal-delay-3">
+                    <p class="text-graphite-400 text-sm leading-relaxed mb-6">
+                        When infrastructure is engineered with exactness, the systems built upon it gain sovereignty, clarity, and permanence.
+                    </p>
+                    <p class="text-graphite-400 text-sm leading-relaxed mb-6">
+                        OnTheLLow exists for builders who understand that control is not the opposite of capability &mdash; it is the precondition for it.
+                    </p>
+                    <div class="flex items-center gap-3 mt-8">
+                        <div class="w-8 h-8 rounded-full border border-cloudy-sky-500/15 flex items-center justify-center">
+                            <span class="iconify text-cloudy-sky-400/50" data-icon="lucide:shield-check" data-width="14"></span>
+                        </div>
+                        <span class="text-[10px] text-graphite-500 tracking-[.1em] uppercase">Engineered for permanence</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING STATEMENT -->
+    <section class="relative py-32 md:py-44 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 mb-8">
+                    <div class="w-6 h-px bg-cloudy-sky-500/20"></div>
+                    <span class="text-[9px] tracking-[.2em] uppercase text-graphite-500">The Threshold</span>
+                    <div class="w-6 h-px bg-cloudy-sky-500/20"></div>
+                </div>
+            </div>
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl text-graphite-50 leading-[1.1] tracking-tight reveal reveal-delay-1" style="font-weight:400">
+                Precision made <em class="not-italic text-cloudy-sky-300">cinematic</em>.
+            </h2>
+            <p class="mt-8 text-graphite-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto reveal reveal-delay-2">
+                The infrastructure you build on defines what you can build. OnTheLLow ensures that definition is one of clarity, sovereignty, and deliberate control.
+            </p>
+            <div class="mt-12 flex items-center justify-center gap-6 reveal reveal-delay-3">
+                <a href="#purpose" class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs tracking-[.1em] uppercase font-medium transition-all duration-200" style="background:rgba(89,148,215,.08);border:1px solid rgba(89,148,215,.15);color:#adcaeb" onmouseover="this.style.background='rgba(89,148,215,.15)';this.style.borderColor='rgba(89,148,215,.25)'" onmouseout="this.style.background='rgba(89,148,215,.08)';this.style.borderColor='rgba(89,148,215,.15)'">
+                    <span>Explore</span>
+                    <span class="iconify" data-icon="lucide:arrow-right" data-width="12"></span>
+                </a>
+                <a href="#" class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs tracking-[.1em] uppercase font-medium text-graphite-400 transition-all duration-200 hover:text-graphite-200" style="border:1px solid rgba(89,148,215,.08)" onmouseover="this.style.borderColor='rgba(89,148,215,.15)'" onmouseout="this.style.borderColor='rgba(89,148,215,.08)'">
+                    <span>Contact</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="relative px-6 pt-16 pb-10" style="background:linear-gradient(180deg,#000 0%,#101014 100%)">
+        <div class="max-w-7xl mx-auto">
+            <!-- Top separator -->
+            <div class="hr-arch mb-12"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 mb-16">
+                <!-- Brand -->
+                <div class="md:col-span-5">
+                    <span class="text-graphite-200 font-semibold tracking-[.2em] text-sm" style="font-family:'Inter',sans-serif">ONTHELLOW</span>
+                    <p class="mt-4 text-graphite-500 text-sm leading-relaxed max-w-sm">
+                        Precision AI infrastructure and high-agency system architecture. Engineered for the sovereign builder.
+                    </p>
+                    <div class="mt-6 flex items-center gap-3">
+                        <div class="mint-dot mint-pulse" style="width:4px;height:4px"></div>
+                        <span class="text-[9px] tracking-[.15em] uppercase text-graphite-600">All systems operational</span>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="md:col-span-3">
+                    <span class="text-[9px] tracking-[.2em] uppercase text-graphite-500 mb-4 block">Navigation</span>
+                    <div class="space-y-3">
+                        <a href="#purpose" class="block text-graphite-400 hover:text-cloudy-sky-300 text-sm transition-colors duration-200">Purpose</a>
+                        <a href="#principles" class="block text-graphite-400 hover:text-cloudy-sky-300 text-sm transition-colors duration-200">Principles</a>
+                        <a href="#architecture" class="block text-graphite-400 hover:text-cloudy-sky-300 text-sm transition-colors duration-200">Architecture</a>
+                        <a href="#philosophy" class="block text-graphite-400 hover:text-cloudy-sky-300 text-sm transition-colors duration-200">Philosophy</a>
+                    </div>
+                </div>
+
+                <!-- System -->
+                <div class="md:col-span-4">
+                    <span class="text-[9px] tracking-[.2em] uppercase text-graphite-500 mb-4 block">System Status</span>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-graphite-400 text-sm">Infrastructure</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-mint-leaf-500"></div>
+                                <span class="text-[9px] text-mint-leaf-600">Active</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-graphite-400 text-sm">Orchestration</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-mint-leaf-500"></div>
+                                <span class="text-[9px] text-mint-leaf-600">Active</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-graphite-400 text-sm">Control Layer</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-mint-leaf-500"></div>
+                                <span class="text-[9px] text-mint-leaf-600">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="border-t border-graphite-800/40 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <span class="text-graphite-600 text-xs">&copy; 2025 OnTheLLow. All rights reserved.</span>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-graphite-600 hover:text-graphite-400 text-xs transition-colors duration-200">Privacy</a>
+                    <a href="#" class="text-graphite-600 hover:text-graphite-400 text-xs transition-colors duration-200">Terms</a>
+                    <a href="#" class="text-graphite-500 hover:text-cloudy-sky-400 transition-colors duration-200">
+                        <span class="iconify" data-icon="lucide:github" data-width="14"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
+
+<script type="module">
+(() => {
+    if (window.__onTheLLowWebglHeroBooted) return;
+    window.__onTheLLowWebglHeroBooted = true;
+
+    const root = document.documentElement;
+    const body = document.body;
+    const hero = document.querySelector(".hero");
+    const canvas = document.querySelector("#hero-canvas");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const premiumEase = (t) => 1 - Math.pow(1 - t, 4);
+    const revealElements = document.querySelectorAll(".reveal");
+
+    function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+    }
+
+    function updateHeroScrollState() {
+        if (!hero) return 0;
+        const heroRect = hero.getBoundingClientRect();
+        const scrollable = Math.max(1, hero.offsetHeight - window.innerHeight);
+        const progress = clamp(-heroRect.top / scrollable, 0, 1);
+        root.style.setProperty("--hero-progress", progress.toFixed(4));
+        return progress;
+    }
+
+    function bootReveals() {
+        if (!revealElements.length) return;
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+            revealElements.forEach((element) => element.classList.add("visible"));
+            return;
+        }
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+                entry.target.classList.toggle("visible", entry.isIntersecting);
+            }
+        }, {
+            threshold: 0.16,
+            rootMargin: "0px 0px -8% 0px"
+        });
+
+        revealElements.forEach((element) => revealObserver.observe(element));
+    }
+
+    async function bootHero() {
+        if (reduceMotion || !canvas) return;
+
+        let THREE;
+        try {
+            THREE = await import("https://unpkg.com/three@0.164.1/build/three.module.js");
+        } catch (error) {
+            console.warn("Three.js hero unavailable; CSS fallback remains active.", error);
+            return;
+        }
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance"
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.05;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+        camera.position.set(0, 0.2, 9);
+
+        const rig = new THREE.Group();
+        const metalGroup = new THREE.Group();
+        const glassGroup = new THREE.Group();
+        const seamGroup = new THREE.Group();
+        scene.add(rig);
+        rig.add(metalGroup, glassGroup, seamGroup);
+
+        const metalMaterial = new THREE.MeshStandardMaterial({
+            color: 0x2e2d39,
+            metalness: 0.92,
+            roughness: 0.18,
+            envMapIntensity: 1.2
+        });
+        const darkMetalMaterial = new THREE.MeshStandardMaterial({
+            color: 0x101014,
+            metalness: 0.88,
+            roughness: 0.24
+        });
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xe1f5f9,
+            transparent: true,
+            opacity: 0.18,
+            metalness: 0,
+            roughness: 0.06,
+            transmission: 0.45,
+            ior: 1.5,
+            thickness: 0.55,
+            clearcoat: 1,
+            clearcoatRoughness: 0.08
+        });
+        const accentMaterial = new THREE.MeshBasicMaterial({
+            color: 0x5994d7,
+            transparent: true,
+            opacity: 0.78
+        });
+        const mistMaterial = new THREE.MeshBasicMaterial({
+            color: 0xe1f5f9,
+            transparent: true,
+            opacity: 0.42
+        });
+
+        function box(width, height, depth, material, x, y, z, group, rotZ = 0) {
+            const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), material);
+            mesh.position.set(x, y, z);
+            mesh.rotation.z = rotZ;
+            mesh.userData.base = mesh.position.clone();
+            mesh.userData.baseRot = mesh.rotation.clone();
+            group.add(mesh);
+            return mesh;
+        }
+
+        const rails = [
+            box(5.6, 0.2, 0.35, metalMaterial, 0, 1.35, 0, metalGroup),
+            box(5.6, 0.2, 0.35, metalMaterial, 0, -1.35, 0, metalGroup),
+            box(0.2, 2.8, 0.35, metalMaterial, -2.8, 0, 0, metalGroup),
+            box(0.2, 2.8, 0.35, metalMaterial, 2.8, 0, 0, metalGroup),
+            box(3.9, 0.12, 0.22, darkMetalMaterial, 0, 0.78, 0.34, metalGroup),
+            box(3.9, 0.12, 0.22, darkMetalMaterial, 0, -0.78, 0.34, metalGroup),
+            box(0.12, 1.65, 0.22, darkMetalMaterial, -1.95, 0, 0.34, metalGroup),
+            box(0.12, 1.65, 0.22, darkMetalMaterial, 1.95, 0, 0.34, metalGroup)
+        ];
+
+        const glassPanels = [
+            box(2.15, 1.22, 0.05, glassMaterial, -1.22, 0.18, 0.55, glassGroup, 0.08),
+            box(2.15, 1.22, 0.05, glassMaterial, 1.22, -0.18, 0.58, glassGroup, -0.08),
+            box(1.16, 2.18, 0.05, glassMaterial, 0, 0, 0.78, glassGroup, 0.785)
+        ];
+
+        const seams = [
+            box(4.6, 0.018, 0.018, accentMaterial, 0, 0, 0.96, seamGroup),
+            box(0.018, 2.35, 0.018, accentMaterial, 0, 0, 0.97, seamGroup),
+            box(1.24, 0.024, 0.024, mistMaterial, 0, 0.57, 1.08, seamGroup),
+            box(1.24, 0.024, 0.024, mistMaterial, 0, -0.57, 1.08, seamGroup)
+        ];
+
+        const core = box(1.32, 0.34, 0.16, darkMetalMaterial, 0, 0, 1.12, metalGroup);
+        const coreGlow = box(1.12, 0.035, 0.018, mistMaterial, 0, 0, 1.24, seamGroup);
+
+        const keyLight = new THREE.DirectionalLight(0xe1f5f9, 2.2);
+        keyLight.position.set(3.5, 4.5, 5.5);
+        scene.add(keyLight);
+        const rimLight = new THREE.DirectionalLight(0x5994d7, 2.8);
+        rimLight.position.set(-4, -1.5, 3);
+        scene.add(rimLight);
+        scene.add(new THREE.AmbientLight(0x26384a, 0.8));
+
+        function resize() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
+
+        function setAssembledState(elapsed) {
+            const assembly = premiumEase(clamp(elapsed / 1.45, 0, 1));
+            for (const mesh of rails) {
+                const direction = mesh.userData.base.x < 0 ? -1 : mesh.userData.base.x > 0 ? 1 : 0;
+                mesh.position.x = mesh.userData.base.x + (1 - assembly) * direction * 2.8;
+                mesh.position.y = mesh.userData.base.y + (1 - assembly) * Math.sign(mesh.userData.base.y) * 1.1;
+                mesh.position.z = mesh.userData.base.z - (1 - assembly) * 2.2;
+            }
+            for (const mesh of glassPanels) {
+                mesh.position.x = mesh.userData.base.x + (1 - assembly) * mesh.userData.base.x * 0.9;
+                mesh.position.y = mesh.userData.base.y + (1 - assembly) * 0.8;
+                mesh.position.z = mesh.userData.base.z + (1 - assembly) * 2.4;
+                mesh.rotation.z = mesh.userData.baseRot.z + (1 - assembly) * 0.3;
+            }
+            for (const mesh of seams) {
+                mesh.scale.x = 0.25 + assembly * 0.75;
+                mesh.material.opacity = mesh === coreGlow ? 0.42 * assembly : 0.78 * assembly;
+            }
+            core.scale.x = 0.35 + assembly * 0.65;
+        }
+
+        function animate(now) {
+            const elapsed = now * 0.001;
+            const opened = premiumEase(updateHeroScrollState());
+            setAssembledState(elapsed);
+
+            rig.rotation.x = -0.12 + Math.sin(elapsed * 0.35) * 0.018 - opened * 0.36;
+            rig.rotation.y = Math.sin(elapsed * 0.28) * 0.035;
+            rig.rotation.z = Math.sin(elapsed * 0.22) * 0.012;
+            rig.position.z = -opened * 5.2;
+            rig.scale.setScalar(1 + opened * 1.35);
+
+            glassPanels[0].position.x = glassPanels[0].userData.base.x - opened * 2.4 + Math.sin(elapsed * 0.58) * 0.025;
+            glassPanels[1].position.x = glassPanels[1].userData.base.x + opened * 2.4 + Math.cos(elapsed * 0.48) * 0.025;
+            glassPanels[2].position.z = glassPanels[2].userData.base.z + opened * 1.9 + Math.sin(elapsed * 0.38) * 0.025;
+            glassPanels[2].rotation.z = glassPanels[2].userData.baseRot.z + opened * 0.38;
+
+            for (const mesh of rails) {
+                mesh.position.x += opened * Math.sign(mesh.userData.base.x) * 1.15;
+                mesh.position.y += opened * Math.sign(mesh.userData.base.y) * 0.72;
+            }
+
+            seamGroup.visible = opened < 0.96;
+            camera.position.z = 8.6 - opened * 3.2;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        resize();
+        window.addEventListener("resize", resize, { passive: true });
+        body.classList.add("webgl-ready");
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("scroll", updateHeroScrollState, { passive: true });
+    updateHeroScrollState();
+    bootReveals();
+    bootHero();
+})();
+</script>
+</body>
+</html>
+
